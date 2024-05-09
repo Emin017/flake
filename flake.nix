@@ -12,28 +12,28 @@
       let
         pkgs = import nixpkgs { inherit system;};
         deps = with pkgs; [
-					vim
-					tmux
-					yazi
-          git
-					man
-					ccache
+	vim
+	tmux
+	yazi
+        git
+	man
+	ccache
 
-          mill
-          dtc
-					boost
-          gnumake autoconf automake
-          cmake ninja
-          pkgsCross.riscv64-embedded.buildPackages.gcc
-          pkgsCross.riscv64-embedded.buildPackages.gdb
-          verilator cmake ninja
-          openocd
-          circt
-          spike
+        mill
+        dtc
+	boost
+        gnumake autoconf automake
+        cmake ninja
+        pkgsCross.riscv64-embedded.buildPackages.gcc
+        pkgsCross.riscv64-embedded.buildPackages.gdb
+        verilator cmake ninja
+        openocd
+        circt
+        spike
 
-					llvm_17
-					SDL2
-					readline
+	llvm_17
+	SDL2
+	readline
         ];
       in
         {
@@ -43,8 +43,8 @@
           SPIKE_ROOT = "${pkgs.spike}";
           RV64_TOOLCHAIN_ROOT = "${pkgs.pkgsCross.riscv64-embedded.buildPackages.gcc}";
           shellHook = ''
-						export PATH=$PATH:$SPIKE_ROOT/bin:$RV64_TOOLCHAIN_ROOT/bin
-						alias ra='yazi'
+		export PATH=$PATH:$SPIKE_ROOT/bin:$RV64_TOOLCHAIN_ROOT/bin
+		alias ra='yazi'
           '';
           };
         }
