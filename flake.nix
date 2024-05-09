@@ -47,7 +47,7 @@
       in {
         legacyPackages = pkgs;
         formatter = pkgs.alejandra;
-        devShell = pkgs.mkShell.override {stdenv = pkgs.clangStdenv;} {
+        devShells.default = pkgs.mkShell.override {stdenv = pkgs.clangStdenv;} {
           buildInputs = deps;
           SPIKE_ROOT = "${pkgs.spike}";
           RV64_TOOLCHAIN_ROOT = "${pkgs.pkgsCross.riscv64-embedded.buildPackages.gcc}";
@@ -57,6 +57,5 @@
           '';
         };
       }
-    )
-    // {inherit inputs;};
+    );
 }
