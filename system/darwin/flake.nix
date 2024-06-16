@@ -21,7 +21,7 @@
       environment.systemPackages = [
         pkgs.vim
         pkgs.alejandra
-		pkgs.neovim
+        pkgs.neovim
       ];
 
       # Auto upgrade nix package and the daemon service.
