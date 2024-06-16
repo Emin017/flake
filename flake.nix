@@ -56,7 +56,7 @@
     nixosConfigurations = nixpkgs.lib.nixosSystem {
       specialArgs = inputs;
       modules = [
-        ./system/linux/wsl/configuration.nix
+        ./system/linux/wsl/wsl.nix
         home-manager.nixosModules.home-manager
         {
           home-manager = {

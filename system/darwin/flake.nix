@@ -52,7 +52,6 @@
     # $ darwin-rebuild build --flake .#MacBook-Air
     darwinConfigurations."MacBook-Air" = nix-darwin.lib.darwinSystem {
       modules = [
-        # ./configuration.nix
         ./darwin.nix
         home-manager.darwinModules.home-manager
         {
