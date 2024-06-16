@@ -8,13 +8,18 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ nixpkgs, nixos-wsl, home-manager, ... }: {
+  outputs = inputs @ {
+    nixpkgs,
+    nixos-wsl,
+    home-manager,
+    ...
+  }: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./configuration.nix
-	  nixos-wsl.nixosModules.wsl
+          nixos-wsl.nixosModules.wsl
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

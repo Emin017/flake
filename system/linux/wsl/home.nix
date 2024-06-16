@@ -7,7 +7,6 @@
   home.username = "nixos";
   home.homeDirectory = "/home/nixos";
 
-
   # Set cursor size
   xresources.properties = {
     "Xcursor.size" = 16;
