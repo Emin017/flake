@@ -73,7 +73,7 @@
       ];
     };
     # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."MacBook-Air".pkgs;
+    darwinPackages = self.darwinConfigurations."MacBook".pkgs;
     formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
   };
