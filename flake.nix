@@ -7,6 +7,10 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,12 +20,13 @@
   outputs = inputs @ {
     self,
     nix-darwin,
+    nixos-wsl,
     nixpkgs,
     home-manager,
   }: let
     linuxSystems = ["x86_64-linux" "aarch64-linux"];
     darwinSystems = ["aarch64-darwin"];
-    user = "qimingchu";
+    user = "nixos";
     forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) f;
     devShell = system: let
       pkgs = nixpkgs.legacyPackages.${system};
@@ -53,10 +58,10 @@
         }
       ];
     };
-    nixosConfigurations = nixpkgs.lib.nixosSystem {
-      specialArgs = inputs;
+    nixosConfigurations."WSL" = nixpkgs.lib.nixosSystem {
       modules = [
         ./system/linux/wsl/wsl.nix
+        nixos-wsl.nixosModules.wsl
         home-manager.nixosModules.home-manager
         {
           home-manager = {
