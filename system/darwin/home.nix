@@ -42,7 +42,7 @@
       cocoapods
       m-cli # useful macOS CLI commands
     ];
-  # git 相关配置
+  # Setup git
   programs.git = {
     enable = true;
     userName = "Qiming Chu";

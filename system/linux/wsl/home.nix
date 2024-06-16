@@ -60,14 +60,14 @@
     lsof # list open files
   ];
 
-  # git 相关配置
+  # Setup git
   programs.git = {
     enable = true;
     userName = "Emin017";
     userEmail = "cchuqiming@gmail.com";
   };
 
-  # 启用 starship，这是一个漂亮的 shell 提示符
+  # Enable starship
   programs.starship = {
     enable = true;
     settings = {
