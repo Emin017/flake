@@ -26,6 +26,7 @@
   }: let
     linuxSystems = ["x86_64-linux" "aarch64-linux"];
     darwinSystems = ["aarch64-darwin"];
+    # Change the user to your own username
     user = "nixos";
     forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) f;
     devShell = system: let
@@ -58,6 +59,8 @@
         }
       ];
     };
+    # Build wsl flake using:
+    # $ darwin-rebuild build --flake .#WSL
     nixosConfigurations."WSL" = nixpkgs.lib.nixosSystem {
       modules = [
         ./system/linux/wsl/wsl.nix
@@ -74,6 +77,8 @@
     };
     # Expose the package set, including overlays, for convenience.
     darwinPackages = self.darwinConfigurations."MacBook".pkgs;
+    # Format files using:
+    # $ nix fmt
     formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
   };
