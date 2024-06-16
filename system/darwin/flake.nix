@@ -1,27 +1,29 @@
 {
-  description = "Emin's Darwin system flake";
+  description = "Example Darwin system flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    # home-manager.url = "github:nix-community/home-manager";
-    # home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {
     self,
     nix-darwin,
     nixpkgs,
-    # home-manager,
+    home-manager,
   }: let
     configuration = {pkgs, ...}: {
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages = [
         pkgs.vim
+        pkgs.git
         pkgs.alejandra
-        pkgs.neovim
+        pkgs.nixd
+        pkgs.jextract
       ];
 
       # Auto upgrade nix package and the daemon service.
@@ -50,20 +52,21 @@
     # $ darwin-rebuild build --flake .#MacBook-Air
     darwinConfigurations."MacBook-Air" = nix-darwin.lib.darwinSystem {
       modules = [
-        configuration
-        # home-manager.darwinModules.home-manager
-        #     {
-        #       home-manager.useGlobalPkgs = true;
-        #       home-manager.useUserPackages = true;
-        #       home-manager.users.jdoe = import ./home.nix;
-
-        #       # Optionally, use home-manager.extraSpecialArgs to pass
-        #       # arguments to home.nix
-        #     }
+        # ./configuration.nix
+        ./darwin.nix
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.qimingchu = import ./home.nix;
+          # Optionally, use home-manager.extraSpecialArgs to pass
+          # arguments to home.nix
+        }
       ];
     };
 
     # Expose the package set, including overlays, for convenience.
     darwinPackages = self.darwinConfigurations."MacBook-Air".pkgs;
+    formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
   };
 }
