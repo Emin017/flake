@@ -60,7 +60,7 @@
 
   # git 相关配置
   programs.git = {
-    enable = false;
+    enable = true;
     userName = "Emin017";
     userEmail = "cchuqiming@gmail.com";
   };
