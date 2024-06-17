@@ -48,6 +48,8 @@
     userName = "Qiming Chu";
     userEmail = "cchuqiming@gmail.com";
   };
+  # Enable lazygit
+  programs.lazygit.enable = true;
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
