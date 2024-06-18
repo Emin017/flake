@@ -8,10 +8,6 @@
   home.username = "qimingchu";
   home.homeDirectory = "/Users/qimingchu";
 
-  # Direnv, load and unload environment variables depending on the current directory.
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
-
   home.packages = with pkgs;
     [
       curl
@@ -42,14 +38,11 @@
       cocoapods
       m-cli # useful macOS CLI commands
     ];
-  # Setup git
-  programs.git = {
-    enable = true;
-    userName = "Qiming Chu";
-    userEmail = "cchuqiming@gmail.com";
-  };
-  # Enable lazygit
-  programs.lazygit.enable = true;
+
+  imports = [
+    ../../modules/programs/git.nix
+    ../../modules/programs/direnv.nix
+  ];
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
