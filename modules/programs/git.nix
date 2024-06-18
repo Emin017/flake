@@ -2,7 +2,7 @@
   # Setup git
   programs.git = {
     enable = true;
-    userName = "nixos";
+    userName = "Qiming Chu";
     userEmail = "cchuqiming@gmail.com";
   };
   # Enable lazygit
