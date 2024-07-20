@@ -75,11 +75,25 @@
         }
       ];
     };
+    nixosConfigurations."NixOS-OrbStack" = nixpkgs.lib.nixosSystem {
+      modules = [
+        ./system/linux/nixos/aarch64-orbstack.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users.${user} = import ./system/linux/nixos/home.nix;
+          };
+        }
+      ];
+    };
     # Expose the package set, including overlays, for convenience.
     darwinPackages = self.darwinConfigurations."MacBook".pkgs;
     # Format files using:
     # $ nix fmt
     formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.alejandra;
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+    formatter.aarch64-linux = nixpkgs.legacyPackages.aarch64-linux.alejandra;
   };
 }
