@@ -60,7 +60,7 @@
       ];
     };
     # Build wsl flake using:
-    # $ darwin-rebuild build --flake .#WSL
+    # $ sudo nixos-rebuild switch --flake .#WSL
     nixosConfigurations."WSL" = nixpkgs.lib.nixosSystem {
       modules = [
         ./system/linux/wsl/wsl.nix

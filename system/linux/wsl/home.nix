@@ -1,12 +1,11 @@
 {
   config,
   pkgs,
-  user,
   ...
 }: {
   # Change your usrnanme and user directory here
-  home.username = user;
-  home.homeDirectory = "/home/${user}";
+  home.username = "nixos";
+  home.homeDirectory = "/home/nixos";
 
   # Set cursor size
   xresources.properties = {
@@ -60,10 +59,7 @@
   ];
 
   imports = [
-    ../../../modules/programs/zsh.nix
-    ../../../modules/programs/git.nix
-    ../../../modules/programs/direnv.nix
-    ../../../modules/programs/neovim.nix
+    ./../../../modules/programs/minimal.nix
   ];
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
