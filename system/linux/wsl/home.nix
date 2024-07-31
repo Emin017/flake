@@ -1,11 +1,12 @@
 {
   config,
   pkgs,
+  user,
   ...
 }: {
   # Change your usrnanme and user directory here
-  home.username = "nixos";
-  home.homeDirectory = "/home/nixos";
+  home.username = user;
+  home.homeDirectory = "/home/${user}";
 
   # Set cursor size
   xresources.properties = {

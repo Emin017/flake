@@ -7,6 +7,7 @@
   config,
   lib,
   pkgs,
+  user,
   ...
 }: {
   # imports = [
@@ -15,7 +16,7 @@
   # ];
 
   wsl.enable = true;
-  wsl.defaultUser = "nixos";
+  wsl.defaultUser = user;
 
   environment.systemPackages = [
     pkgs.vim
