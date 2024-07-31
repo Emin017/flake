@@ -75,6 +75,20 @@
         }
       ];
     };
+    # nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
+    #   system = "x86_64-linux";
+    #   modules = [
+    #     ./system/linux/nixos/config.nix
+    #     home-manager.nixosModules.home-manager
+    #     {
+    #       home-manager = {
+    #         useGlobalPkgs = true;
+    #         useUserPackages = true;
+    #         users.${user} = import ./system/linux/nixos/home.nix;
+    #       };
+    #     }
+    #   ];
+    # };
     # Expose the package set, including overlays, for convenience.
     darwinPackages = self.darwinConfigurations."MacBook".pkgs;
     # Format files using:
