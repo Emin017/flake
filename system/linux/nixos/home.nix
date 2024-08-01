@@ -65,7 +65,6 @@
     vscode
     binutils
     gcc
-    clang
     llvm_17
   ];
 
