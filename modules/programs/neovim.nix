@@ -1,4 +1,5 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   nvimConfig = pkgs.fetchFromGitHub {
     owner = "Emin017";
     repo = "nvim";
@@ -6,15 +7,11 @@
     sha256 = "sha256-NgqYoacYYC1SnfcosQZXNu7UBxW2I147rdgLKNuoUFg=";
   };
   nvimConfigFixed =
-    pkgs.runCommand "nvim-config-fixed" {
-      buildInputs = [pkgs.coreutils];
-    } ''
+    pkgs.runCommand "nvim-config-fixed" { buildInputs = [ pkgs.coreutils ]; } ''
       cp -r ${nvimConfig} $out
       chmod -R u+rwX,go+rX,go-w $out
     '';
 in {
-  programs.neovim = {
-    enable = true;
-  };
+  programs.neovim = { enable = true; };
   home.file.".config/nvim".source = nvimConfigFixed;
 }

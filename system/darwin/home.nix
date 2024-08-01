@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{ config, pkgs, lib, ... }: {
   home.stateVersion = "24.05";
   home.username = "qimingchu";
   home.homeDirectory = "/Users/qimingchu";
@@ -33,16 +28,13 @@
 
       btop # replacement of htop/nmon
       iftop # network monitoring
-    ]
-    ++ lib.optionals stdenv.isDarwin [
+    ] ++ lib.optionals stdenv.isDarwin [
       cocoapods
       m-cli # useful macOS CLI commands
     ];
 
-  imports = [
-    ../../modules/programs/git.nix
-    ../../modules/programs/direnv.nix
-  ];
+  imports =
+    [ ../../modules/programs/git.nix ../../modules/programs/direnv.nix ];
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

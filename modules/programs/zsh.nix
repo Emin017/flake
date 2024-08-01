@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   # Enable starship
   programs.starship = {
     enable = true;
