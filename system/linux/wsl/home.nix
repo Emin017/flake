@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{ config, pkgs, ... }: {
   # Change your usrnanme and user directory here
   home.username = "nixos";
   home.homeDirectory = "/home/nixos";
@@ -58,9 +54,7 @@
     lsof # list open files
   ];
 
-  imports = [
-    ./../../../modules/programs/minimal.nix
-  ];
+  imports = [ ./../../../modules/programs/minimal.nix ];
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
