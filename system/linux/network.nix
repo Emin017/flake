@@ -9,6 +9,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # V2rayA proxy
+	services.v2raya.enable = true;
+
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
