@@ -3,35 +3,22 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
-  # imports = [
-  # include NixOS-WSL modules
-  #   <nixos-wsl/modules>
-  # ];
+{ config, lib, pkgs, username, ... }: {
+  imports = [
+    # include NixOS-WSL modules
+    #   <nixos-wsl/modules>
+    (import ./../minimal.nix { inherit config pkgs username; })
+  ];
 
   wsl.enable = true;
   wsl.defaultUser = "nixos";
 
-  environment.systemPackages = [
-    pkgs.vim
-    pkgs.zsh
-    pkgs.git
-    pkgs.neovim
-    pkgs.alejandra
-  ];
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  environment.systemPackages = [ pkgs.git pkgs.neovim ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Set the default editor to vim
   environment.variables.EDITOR = "nvim";
 
-  # Set the default shell
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
   nixpkgs.hostPlatform = "x86_64-linux";
 
   # This value determines the NixOS release from which the default

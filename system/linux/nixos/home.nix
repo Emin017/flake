@@ -1,7 +1,7 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, username, homeDirectory, ... }: {
   # Change your usrnanme and user directory here
-  home.username = "nixos";
-  home.homeDirectory = "/home/nixos";
+  home.username = username;
+  home.homeDirectory = homeDirectory;
 
   # Set cursor size
   xresources.properties = {
@@ -17,6 +17,8 @@
     zip
     xz
     unzip
+
+    v2raya
 
     ripgrep # recursively searches directories for a regex pattern
     jq # A lightweight and flexible command-line JSON processor
@@ -52,9 +54,24 @@
     strace # system call monitoring
     ltrace # library call monitoring
     lsof # list open files
+
+    gnomeExtensions.caffeine # Keep monitor awake
+
+    # for development
+    vscode
+    binutils
+    gcc
+    llvm_17
   ];
 
-  imports = [ ./../../../modules/programs/minimal.nix ];
+  imports = [
+    ../../../modules/programs/zsh.nix
+    ../../../modules/programs/git.nix
+    ../../../modules/programs/direnv.nix
+    ../../../modules/programs/dconf.nix
+    ../../../modules/programs/neovim.nix
+    ../../../modules/programs/i18n.nix
+  ];
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
