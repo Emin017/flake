@@ -1,5 +1,5 @@
-{ ... }: {
-  networking.hostName = "nixos"; # Define your hostname.
+{ username, ... }: {
+  networking.hostName = "${username}"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -10,7 +10,7 @@
   networking.networkmanager.enable = true;
 
   # V2rayA proxy
-	services.v2raya.enable = true;
+  services.v2raya.enable = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;

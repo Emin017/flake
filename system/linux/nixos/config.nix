@@ -8,7 +8,7 @@
     (import ./../user.nix { inherit config pkgs username homeDirectory; })
     (import ./../minimal.nix { inherit config pkgs username homeDirectory; })
     ./../pipewire.nix
-    ./../network.nix
+    (import ./../network.nix { inherit username; })
     ./../x11.nix
   ];
 
