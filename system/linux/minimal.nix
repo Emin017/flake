@@ -1,3 +1,1 @@
-{ config, pkgs, username, ... }: {
-  imports = [ ./i18n.nix (import ./zsh.nix { inherit pkgs username; }) ];
-}
+{ config, pkgs, meta, ... }: { imports = [ ./i18n.nix ./zsh.nix ]; }

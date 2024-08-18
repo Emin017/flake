@@ -1,6 +1,6 @@
-{ pkgs, username, ... }: {
+{ pkgs, meta, ... }: {
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${username} = {
+  users.users.${meta.hostname} = {
     isNormalUser = true;
     description = "Emin's NixOS";
     extraGroups = [ "networkmanager" "wheel" ];

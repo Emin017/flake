@@ -3,15 +3,15 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
-{ config, lib, pkgs, username, ... }: {
+{ config, pkgs, meta, ... }: {
   imports = [
     # include NixOS-WSL modules
     #   <nixos-wsl/modules>
-    (import ./../minimal.nix { inherit config pkgs username; })
+    ./../minimal.nix
   ];
 
   wsl.enable = true;
-  wsl.defaultUser = "nixos";
+  wsl.defaultUser = meta.hostname;
 
   environment.systemPackages = [ pkgs.git pkgs.neovim ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

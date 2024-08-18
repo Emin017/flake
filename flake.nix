@@ -59,19 +59,16 @@
       # Build wsl flake using:
       # $ sudo nixos-rebuild switch --flake .#WSL
       nixosConfigurations."WSL" = nixpkgs.lib.nixosSystem {
+        specialArgs = { meta = { hostname = user; }; };
         modules = [
-          ({ config, pkgs, lib, ... }:
-            import ./system/linux/wsl/wsl.nix {
-              username = user;
-              homeDirectory = homeDirectory;
-              inherit config pkgs lib;
-            })
+          ./system/linux/wsl/wsl.nix
           nixos-wsl.nixosModules.wsl
           home-manager.nixosModules.home-manager
           {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              extraSpecialArgs = { meta = { hostname = user; }; };
               users.${user} = import ./system/linux/wsl/home.nix;
             };
           }
@@ -79,25 +76,17 @@
       };
       nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs = { meta = { hostname = user; }; };
         modules = [
-          ({ config, pkgs, lib, ... }:
-            import ./system/linux/nixos/config.nix {
-              username = user;
-              homeDirectory = homeDirectory;
-              inherit config pkgs lib;
-            })
+          ./system/linux/nixos/config.nix
           # ./system/linux/nixos/config.nix
           home-manager.nixosModules.home-manager
           {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.${user} = { config, pkgs, lib, ... }:
-                import ./system/linux/nixos/home.nix {
-                  username = user;
-                  homeDirectory = homeDirectory;
-                  inherit config pkgs lib;
-                };
+              extraSpecialArgs = { meta = { hostname = user; }; };
+              users.${user} = ./system/linux/nixos/home.nix;
             };
           }
         ];

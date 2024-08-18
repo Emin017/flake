@@ -1,14 +1,14 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config, pkgs, username, homeDirectory, ... }: {
+{ pkgs, ... }: {
   imports = [
     # Include the results of the hardware scan.
     # ./hardware-configuration.nix
-    (import ./../user.nix { inherit config pkgs username homeDirectory; })
-    (import ./../minimal.nix { inherit config pkgs username homeDirectory; })
+    ./../user.nix
+    ./../minimal.nix
     ./../pipewire.nix
-    (import ./../network.nix { inherit username; })
+    ./../network.nix
     ./../x11.nix
   ];
 

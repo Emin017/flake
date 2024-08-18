@@ -1,7 +1,7 @@
-{ config, pkgs, username, homeDirectory, ... }: {
+{ pkgs, meta, ... }: {
   # Change your usrnanme and user directory here
-  home.username = username;
-  home.homeDirectory = homeDirectory;
+  home.username = meta.hostname;
+  home.homeDirectory = "/home/${meta.hostname}";
 
   # Set cursor size
   xresources.properties = {
