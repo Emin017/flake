@@ -1,6 +1,13 @@
 {
   description = "Emin's nix flake";
 
+  nixConfig = {
+    # a self host nix cache for Emin's nix store
+    extra-substituters = [ "https://cache.eminrepo.cc/nix-cache/" ];
+    extra-trusted-public-keys =
+      [ "cache.eminrepo.cc:9yXK4QO7rnxqCKxKH4JGGqWhiJr6dOLCiXklPb7FmKc=" ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin = {
