@@ -96,6 +96,6 @@
       # Format files using:
       # $ nix fmt
       formatter = nixpkgs.lib.genAttrs allSystems
-        (system: nixpkgs.legacyPackages.${system}.nixfmt);
+        (system: nixpkgs.legacyPackages.${system}.nixfmt-classic);
     };
 }
