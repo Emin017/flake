@@ -17,7 +17,7 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixos-wsl, nixpkgs, home-manager, }:
+  outputs = { self, nix-darwin, nixos-wsl, nixpkgs, home-manager, ... }:
     let
       # Change the user to your own username
       user = "nixos";
