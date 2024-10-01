@@ -78,6 +78,7 @@
               extraSpecialArgs = { meta = { hostname = user; }; };
               users.${user} = import ./system/linux/wsl/home.nix;
             };
+            nix.settings.trusted-users = [ "nixos" ];
           }
         ];
       };
@@ -95,6 +96,7 @@
               extraSpecialArgs = { meta = { hostname = user; }; };
               users.${user} = ./system/linux/nixos/home.nix;
             };
+            nix.settings.trusted-users = [ "nixos" ];
           }
         ];
       };
