@@ -1,7 +1,7 @@
-{ pkgs, meta, ... }: {
+{ lib, pkgs, meta, ... }: {
   # Change your usrnanme and user directory here
-  home.username = meta.hostname;
-  home.homeDirectory = "/home/${meta.hostname}";
+  home.username = lib.mkForce meta.hostname;
+  home.homeDirectory = lib.mkForce "/home/${meta.hostname}";
 
   # Set cursor size
   xresources.properties = {

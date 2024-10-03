@@ -77,6 +77,7 @@
               useUserPackages = true;
               extraSpecialArgs = { meta = { hostname = user; }; };
               users.${user} = import ./system/linux/wsl/home.nix;
+              backupFileExtension = "backup";
             };
             nix.settings.trusted-users = [ "nixos" ];
           }
@@ -102,6 +103,16 @@
       };
       # Expose the package set, including overlays, for convenience.
       darwinPackages = self.darwinConfigurations."MacBook".pkgs;
+      hydraJobs = {
+        nixosConfigurations = {
+          nixos = self.nixosConfigurations."nixos".config.system.build.toplevel;
+          wsl = self.nixosConfigurations."WSL".config.system.build.toplevel;
+        };
+        darwinConfigurations = {
+          MacBook =
+            self.darwinConfigurations."MacBook".config.system.build.toplevel;
+        };
+      };
       # Format files using:
       # $ nix fmt
       formatter = nixpkgs.lib.genAttrs allSystems
