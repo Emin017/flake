@@ -18,6 +18,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  fileSystems = { "/".device = "/dev/sda1"; };
+
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 

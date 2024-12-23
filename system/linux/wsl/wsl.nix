@@ -13,8 +13,22 @@
   wsl.enable = true;
   wsl.defaultUser = meta.hostname;
 
-  environment.systemPackages = [ pkgs.git pkgs.neovim ];
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  environment.systemPackages = [ pkgs.git pkgs.neovim pkgs.minio-client ];
+  nix.settings = {
+    trusted-users = [ "root" "nixos" ];
+    auto-optimise-store = true;
+    experimental-features = [ "nix-command" "flakes" ];
+    extra-trusted-substituters = [
+      "https://cache.eminrepo.cc/nix-cache/"
+      "https://serve.eminrepo.cc/nix-cache/"
+    ];
+    extra-trusted-public-keys =
+      [ "cache.eminrepo.cc:9yXK4QO7rnxqCKxKH4JGGqWhiJr6dOLCiXklPb7FmKc=" ];
+  };
+  programs.nix-ld = {
+    enable = true;
+    package = pkgs.nix-ld-rs;
+  };
 
   # Set the default editor to vim
   environment.variables.EDITOR = "nvim";
@@ -27,5 +41,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 }

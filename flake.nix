@@ -3,9 +3,12 @@
 
   nixConfig = {
     # a self host nix cache for Emin's nix store
-    extra-substituters = [ "https://cache.eminrepo.cc/nix-cache/" ];
+    extra-trusted-substituters = [
+      "https://serve.eminrepo.cc/"
+      "https://mirror.sjtu.edu.cn/nix-channels/store"
+    ];
     extra-trusted-public-keys =
-      [ "cache.eminrepo.cc:9yXK4QO7rnxqCKxKH4JGGqWhiJr6dOLCiXklPb7FmKc=" ];
+      [ "serve.eminrepo.cc:fgdTGDMn75Z0NOvTmus/Z9Fyh6ExgoqddNVkaYVi5qk=" ];
   };
 
   inputs = {
@@ -22,89 +25,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nix-darwin, nixos-wsl, nixpkgs, home-manager, ... }:
-    let
-      # Change the user to your own username
-      user = "nixos";
-      homeDirectory = "/home/${user}";
-      linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
-      darwinSystems = [ "aarch64-darwin" ];
-      allSystems = linuxSystems ++ darwinSystems;
-      forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) f;
-      devShell = system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in {
-          default = with pkgs;
-            mkShell {
-              nativeBuildInputs = with pkgs; [ git vim nixd ];
-              shellHook = with pkgs; ''
-                export EDITOR=vim
-              '';
-            };
-        };
-    in {
-      devShells = forAllSystems devShell;
-      # Build darwin flake using:
-      # $ darwin-rebuild build --flake .#MacBook
-      darwinConfigurations."MacBook" = nix-darwin.lib.darwinSystem {
-        modules = [
-          ./system/darwin/darwin.nix
-          home-manager.darwinModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.${user} = import ./system/darwin/home.nix;
-              # Optionally, use home-manager.extraSpecialArgs to pass
-              # arguments to home.nix
-            };
-          }
-        ];
-      };
-      # Build wsl flake using:
-      # $ sudo nixos-rebuild switch --flake .#WSL
-      nixosConfigurations."WSL" = nixpkgs.lib.nixosSystem {
-        specialArgs = { meta = { hostname = user; }; };
-        modules = [
-          ./system/linux/wsl/wsl.nix
-          nixos-wsl.nixosModules.wsl
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = { meta = { hostname = user; }; };
-              users.${user} = import ./system/linux/wsl/home.nix;
-            };
-            nix.settings.trusted-users = [ "nixos" ];
-          }
-        ];
-      };
-      nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { meta = { hostname = user; }; };
-        modules = [
-          ./system/linux/nixos/config.nix
-          # ./system/linux/nixos/config.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = { meta = { hostname = user; }; };
-              users.${user} = ./system/linux/nixos/home.nix;
-            };
-            nix.settings.trusted-users = [ "nixos" ];
-          }
-        ];
-      };
-      # Expose the package set, including overlays, for convenience.
-      darwinPackages = self.darwinConfigurations."MacBook".pkgs;
-      # Format files using:
-      # $ nix fmt
-      formatter = nixpkgs.lib.genAttrs allSystems
-        (system: nixpkgs.legacyPackages.${system}.nixfmt-classic);
-    };
+  outputs = inputs: import ./outputs inputs;
+
 }

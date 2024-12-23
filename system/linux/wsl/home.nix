@@ -1,7 +1,7 @@
-{ config, pkgs, meta, ... }: {
+{ lib, config, pkgs, meta, ... }: {
   # Change your usrnanme and user directory here
-  home.username = meta.hostname;
-  home.homeDirectory = "/home/${meta.hostname}";
+  home.username = lib.mkForce meta.hostname;
+  home.homeDirectory = lib.mkForce "/home/${meta.hostname}";
 
   # Set cursor size
   xresources.properties = {
@@ -52,8 +52,14 @@
     strace # system call monitoring
     ltrace # library call monitoring
     lsof # list open files
-  ];
 
+    wget
+    tree-sitter
+    yazi
+    nodejs
+    clang-tools
+    cmake
+  ];
   imports = [ ./../../../modules/programs/minimal.nix ];
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -63,8 +69,9 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "24.05";
+  home.stateVersion = "24.11";
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
 }
