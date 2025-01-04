@@ -10,6 +10,7 @@
     ./../pipewire.nix
     ./../network.nix
     ./../x11.nix
+    ./../i18n.nix
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
