@@ -25,7 +25,7 @@
       dates = "weekly";
       options = "--delete-older-than 15d";
     };
-    package = pkgs.nixFlakes;
+    package = pkgs.nixVersions.stable;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
