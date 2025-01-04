@@ -62,6 +62,7 @@
     binutils
     gcc
     llvm_17
+    cmake
   ];
 
   imports = [
