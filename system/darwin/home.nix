@@ -28,13 +28,17 @@
 
       btop # replacement of htop/nmon
       iftop # network monitoring
+      yazi
     ] ++ lib.optionals stdenv.isDarwin [
       cocoapods
       m-cli # useful macOS CLI commands
     ];
 
-  imports =
-    [ ../../modules/programs/git.nix ../../modules/programs/direnv.nix ];
+  imports = [
+    ../../modules/programs/git.nix
+    ../../modules/programs/direnv.nix
+    ../../modules/programs/yazi.nix
+  ];
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
