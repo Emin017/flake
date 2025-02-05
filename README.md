@@ -1,4 +1,5 @@
 # Flake
+![main](https://github.com/Emin017/flake/actions/workflows/test.yml/badge.svg?branch=master)
 
 ## Usage
 
