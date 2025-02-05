@@ -1,0 +1,63 @@
+name: "Build and test"
+
+env:
+  NIXPKGS_BRANCH: nixpkgs-unstable
+  NIX_DARWIN_BRANCH: master
+  NIX_VERSION: 2.24.11
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v30
+      - name: Build and switch
+        run: |
+          nix run nixpkgs#nixos-rebuild -- build --accept-flake-config --flake '.#nixos'
+          nix run nixpkgs#nixos-rebuild -- build --accept-flake-config --flake '.#wsl'
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v30
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+        with:
+          install_url: https://releases.nixos.org/nix/nix-${{ env.NIX_VERSION }}/install
+          nix_path: nixpkgs=channel:${{ env.NIXPKGS_BRANCH }}
+      - name: Install channels
+        run: |
+          nix-channel --add https://nixos.org/channels/${{ env.NIXPKGS_BRANCH }} nixpkgs
+          nix-channel --add https://github.com/LnL7/nix-darwin/archive/${{ env.NIX_DARWIN_BRANCH }}.tar.gz darwin
+          nix-channel --update
+      - name: Install nix-darwin
+        run: |
+          sudo mkdir -p /etc/nix-darwin
+          sudo chown $(id -nu):$(id -ng) /etc/nix-darwin
+          cd /etc/nix-darwin
+          curl -L -o configuration.nix https://raw.githubusercontent.com/LnL7/nix-darwin/master/modules/examples/simple.nix
+
+          nixConfHash=$(shasum -a 256 /etc/nix/nix.conf | cut -d ' ' -f 1)
+          sudo /usr/bin/sed -i.bak \
+            "s/# programs.fish.enable = true;/ \
+              imports = [ \
+                ({ options, ... }: { \
+                  environment.etc.\"nix\/nix.conf\".knownSha256Hashes = [ \"$nixConfHash\" ]; \
+                  nix.nixPath = \
+                    [ { darwin = \"${PWD////\/}\"; } ] \
+                    ++ options.nix.nixPath.default; \
+                }) \
+              ]; \
+            /" \
+          /etc/nix-darwin/configuration.nix
+
+          nix run nix-darwin/nix-darwin-24.11#darwin-rebuild -- switch -I darwin-config=/etc/nix-darwin/configuration.nix
+      - name: Build nix-darwin configuration
+        run: |
+          . /etc/bashrc
+          darwin-rebuild build --flake '.#macbook'
