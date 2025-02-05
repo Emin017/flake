@@ -1,0 +1,4 @@
+[nvim]
+src.git = "https://github.com/Emin017/nvim"
+src.branch = "main"
+fetch.github = "Emin017/nvim"

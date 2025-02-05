@@ -1,0 +1,23 @@
+{
+    "nvim": {
+        "cargoLocks": null,
+        "date": "2025-02-05",
+        "extract": null,
+        "name": "nvim",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "Emin017",
+            "repo": "nvim",
+            "rev": "4ffa708b5a85ece2091d4829f458f266f9529f48",
+            "sha256": "sha256-Fj5TDsueBKq25aiBbxNGxYAnRpz3vMZ+gCE2s1mtH+4=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "4ffa708b5a85ece2091d4829f458f266f9529f48"
+    }
+}

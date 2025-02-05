@@ -60,7 +60,8 @@
     clang-tools
     cmake
   ];
-  imports = [ ./../../../modules/programs/minimal.nix ];
+  imports =
+    [ ./../../../modules/programs/minimal.nix ./../../../modules/neovim ];
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
