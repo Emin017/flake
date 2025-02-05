@@ -70,8 +70,8 @@
     ../../../modules/programs/git.nix
     ../../../modules/programs/direnv.nix
     ../../../modules/programs/dconf.nix
-    ../../../modules/programs/neovim.nix
     ../../../modules/programs/i18n.nix
+    ../../../modules/neovim
   ];
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
