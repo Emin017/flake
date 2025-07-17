@@ -32,9 +32,9 @@ jobs:
           nix_path: nixpkgs=channel:${{ env.NIXPKGS_BRANCH }}
       - name: Install channels
         run: |
-          nix-channel --add https://nixos.org/channels/${{ env.NIXPKGS_BRANCH }} nixpkgs
-          nix-channel --add https://github.com/LnL7/nix-darwin/archive/${{ env.NIX_DARWIN_BRANCH }}.tar.gz darwin
-          nix-channel --update
+          sudo nix-channel --add https://nixos.org/channels/${{ env.NIXPKGS_BRANCH }} nixpkgs
+          sudo nix-channel --add https://github.com/LnL7/nix-darwin/archive/${{ env.NIX_DARWIN_BRANCH }}.tar.gz darwin
+          sudo nix-channel --update
       - name: Rename /etc/hosts file if it exists
         run: sudo mv /etc/hosts /etc/hosts.before-nix-darwin # Rename /etc/hosts file for conflict resolution
       - name: Install nix-darwin
@@ -58,7 +58,8 @@ jobs:
             /" \
           /etc/nix-darwin/configuration.nix
 
-          nix run nix-darwin/nix-darwin-24.11#darwin-rebuild -- switch -I darwin-config=/etc/nix-darwin/configuration.nix
+          sudo nix run nix-darwin/nix-darwin-24.11#darwin-rebuild -- switch -I darwin-config=/etc/nix-darwin/configuration.nix \
+            -I darwin=$HOME/.nix-defexpr/channels/darwin
       - name: Build nix-darwin configuration
         run: |
           . /etc/bashrc
