@@ -1,4 +1,5 @@
-{ self, nixpkgs, home-manager, nixos-wsl, nix-darwin, deploy-rs, ... }:
+{ self, nixpkgs, home-manager, nixos-wsl, nix-darwin, deploy-rs, treefmt-nix
+, ... }:
 let
   user = "nixos";
   # Systems
@@ -6,6 +7,10 @@ let
   darwinSystems = [ "aarch64-darwin" ];
   allSystems = linuxSystems ++ darwinSystems;
   forAllSystems = f: nixpkgs.lib.genAttrs (linuxSystems ++ darwinSystems) f;
+  # Generate nixpkgs attributes for each system
+  eachSystem = f:
+    nixpkgs.lib.genAttrs allSystems
+    (system: f nixpkgs.legacyPackages.${system});
   # Arguments for the nixos configurations
   args = import ./args.nix {
     inherit self nixpkgs home-manager user nixos-wsl nix-darwin deploy-rs;
@@ -22,6 +27,8 @@ let
           '';
         };
     };
+  treefmtEval =
+    eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
 in {
   # Enter the devShell for this flake
   # Use command `nix develop` to enter the devShell
@@ -58,10 +65,15 @@ in {
   # Import the hydra jobs
   hydraJobs = import ./hydra/jobs.nix args.commonArgs;
   # Use nixfmt-classic as the formatter for all systems
-  formatter = nixpkgs.lib.genAttrs allSystems
-    (system: nixpkgs.legacyPackages.${system}.nixfmt-classic);
+  formatter =
+    eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
   # Use the deploy-rs library to check the deployments
-  checks =
-    builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy)
-    deploy-rs.lib;
+  checks = {
+    deploy-rs =
+      builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy)
+      deploy-rs.lib;
+    format = eachSystem (pkgs: {
+      formatting = treefmtEval.${pkgs.system}.config.build.check self;
+    });
+  };
 }
