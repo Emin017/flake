@@ -1,4 +1,4 @@
-name: "Build and test"
+name: "Build"
 
 env:
   NIXPKGS_BRANCH: nixpkgs-unstable
@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v30
-      - name: Build and switch
+      - name: Build and switch on Linux
         run: |
           nix run nixpkgs#nixos-rebuild -- build --accept-flake-config --flake '.#nixos'
           nix run nixpkgs#nixos-rebuild -- build --accept-flake-config --flake '.#wsl'
@@ -64,3 +64,11 @@ jobs:
         run: |
           . /etc/bashrc
           darwin-rebuild build --flake '.#macbook'
+  build-home-manager:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v30
+      - name: Build home-manager configuration
+        run: |
+          nix build .#homeConfigurations.server.activationPackage
