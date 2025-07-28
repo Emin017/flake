@@ -41,6 +41,14 @@ in {
   darwinConfigurations = {
     macbook = import ./aarch64-darwin/common.nix args.darwinArgs;
   };
+  # Home Manager configurations
+  homeConfigurations = {
+    "server" = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      modules = [ ../system/linux/server/server.nix ];
+      extraSpecialArgs = { meta = { hostname = user; }; };
+    };
+  };
 
   # Import the deploy configurations
   # Use command `nix run github:serokell/deploy-rs -- -d -s .#hydra` to deploy the configuration to the server
