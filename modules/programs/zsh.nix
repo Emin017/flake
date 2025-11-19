@@ -1,12 +1,13 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }:
+{
   # Enable starship
   programs.starship = {
     enable = true;
     settings = {
-      add_newline = false;
+      add_newline = true;
       aws.disabled = true;
       gcloud.disabled = true;
-      line_break.disabled = true;
+      # line_break.disabled = true;
     };
   };
 
@@ -19,6 +20,7 @@
     autosuggestion.enable = true;
     initExtra = ''
       export PATH="$PATH:$HOME/bin:$HOME/.local/bin"
+      zvm_after_init_commands+=(eval "$(fzf --zsh)")
     '';
     # Set aliases
     shellAliases = {
@@ -32,9 +34,16 @@
       save = 1000000;
       size = 1000000;
     };
-    plugins = [{
-      name = "zsh-autopair";
-      src = pkgs.zsh-autopair;
-    }];
+    plugins = [
+      {
+        name = "zsh-autopair";
+        src = pkgs.zsh-autopair;
+      }
+      {
+        name = "vi-mode";
+        src = pkgs.zsh-vi-mode;
+        file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+      }
+    ];
   };
 }

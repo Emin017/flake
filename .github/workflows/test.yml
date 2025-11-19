@@ -11,25 +11,40 @@ on:
     branches:
       - master
 jobs:
-  build-linux:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes pipe-operators
+      - name: Run nix flake check
+        run: |
+          nix flake check --all-systems
+  build-wsl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes pipe-operators
       - name: Build and switch on Linux
         run: |
-          nix run nixpkgs#nixos-rebuild -- build --accept-flake-config --flake '.#nixos'
           nix run nixpkgs#nixos-rebuild -- build --accept-flake-config --flake '.#wsl'
   build-macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: cachix/install-nix-action@v30
       - name: Install Nix
         uses: cachix/install-nix-action@v30
         with:
           install_url: https://releases.nixos.org/nix/nix-${{ env.NIX_VERSION }}/install
           nix_path: nixpkgs=channel:${{ env.NIXPKGS_BRANCH }}
+          extra_nix_config: |
+            experimental-features = nix-command flakes pipe-operators
+      - uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Install channels
         run: |
           sudo nix-channel --add https://nixos.org/channels/${{ env.NIXPKGS_BRANCH }} nixpkgs
@@ -69,6 +84,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes pipe-operators
+      - uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Build home-manager configuration
         run: |
           nix build .#homeConfigurations.server.activationPackage
