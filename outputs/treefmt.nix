@@ -1,8 +1,13 @@
 # treefmt.nix
 { pkgs, ... }:
 {
-  # Used to find the project root
-  projectRootFile = "flake.nix";
-  # Enable the nixfmt-rfc-style program
-  programs.nixfmt.enable = true; # nix
+  treefmt = {
+    # Used to find the project root
+    projectRootFile = "flake.nix";
+    programs = {
+      nixfmt.enable = true;
+      nixfmt.package = pkgs.nixfmt-rfc-style;
+    };
+    flakeCheck = true;
+  };
 }
