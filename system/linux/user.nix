@@ -3,7 +3,9 @@
   users.users.${meta.hostname} = {
     isNormalUser = true;
     description = "Emin's NixOS";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    hashedPassword =
+      "$y$j9T$/Q3RRMjw264NerMQa4C3Z/$nZmWm63fXW2V6dUeQvQ0zafoRiJlHNnZeFS7RytH6T7";
     packages = with pkgs;
       [
         #  thunderbird
