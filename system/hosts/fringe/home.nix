@@ -1,4 +1,12 @@
-{ lib, config, pkgs, meta, ... }: {
+{
+  lib,
+  pkgs,
+  meta,
+  config,
+  zenBrowser,
+  ...
+}:
+{
   # Change your usrnanme and user directory here
   home.username = lib.mkForce meta.hostname;
   home.homeDirectory = lib.mkForce "/home/${meta.hostname}";
@@ -11,18 +19,22 @@
 
   # Use home.packages to install packages
   home.packages = with pkgs; [
+    git
     neofetch
-    nnn
+    wget
 
     zip
     xz
     unzip
+
+    v2raya
 
     ripgrep # recursively searches directories for a regex pattern
     jq # A lightweight and flexible command-line JSON processor
     yq-go # yaml processor https://github.com/mikefarah/yq
     eza # A modern replacement for ‘ls’
     fzf # A command-line fuzzy finder
+    icdiff
 
     # networking tools
     mtr # A network diagnostic tool
@@ -53,15 +65,63 @@
     ltrace # library call monitoring
     lsof # list open files
 
-    wget
-    tree-sitter
-    yazi
-    nodejs
-    clang-tools
+    gnomeExtensions.caffeine # Keep monitor awake
+    gnomeExtensions.clipboard-indicator
+    gnomeExtensions.kimpanel
+    gnomeExtensions.vitals
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.rounded-window-corners-reborn
+    gnomeExtensions.blur-my-shell
+
+    # for development
+    vscode
+    ghostty
+    nixd
+    binutils
+    gcc
     cmake
+    llvm_20
+    nodejs
+
+    jetbrains.idea-ultimate
+
+    # Social
+    wechat
+    discord
+    wemeet
+    feishu
   ];
+
+  dconf = {
+    enable = true;
+    settings = {
+      "org/gnome/shell" = {
+        enabled-extensions = [
+          pkgs.gnomeExtensions.gsconnect.extensionUuid
+          pkgs.gnomeExtensions.caffeine.extensionUuid
+          pkgs.gnomeExtensions.clipboard-indicator.extensionUuid
+          pkgs.gnomeExtensions.vitals.extensionUuid
+          pkgs.gnomeExtensions.dash-to-dock.extensionUuid
+          pkgs.gnomeExtensions.rounded-window-corners-reborn.extensionUuid
+          pkgs.gnomeExtensions.kimpanel.extensionUuid
+          pkgs.gnomeExtensions.blur-my-shell.extensionUuid
+        ];
+      };
+    };
+  };
+
   imports =
-    [ ./../../../modules/programs/minimal.nix ./../../../modules/neovim ];
+    let
+      modules =
+        with builtins;
+        ../../../modules/programs |> readDir |> attrNames |> map (f: ../../../modules/programs + "/${f}");
+    in
+    modules ++ [ zenBrowser.homeModules.beta ];
+  programs.zen-browser.enable = true;
+  programs.zen-browser.policies = {
+    DisableAppUpdate = true;
+    DisableTelemetry = true;
+  };
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
@@ -74,5 +134,4 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
 }

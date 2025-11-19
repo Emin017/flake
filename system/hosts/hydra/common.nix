@@ -1,5 +1,10 @@
-{ pkgs, config, ... }: {
-  imports = [ ./hardware-configuration.nix ./networking.nix ./hydra.nix ];
+{ pkgs, config, ... }:
+{
+  imports = [
+    ./hardware-configuration.nix
+    ./networking.nix
+    ./hydra.nix
+  ];
   boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
   networking.hostName = "hcloud";
@@ -15,9 +20,16 @@
 
   nix = {
     settings = {
-      trusted-users = [ "root" "hydra" ];
+      trusted-users = [
+        "root"
+        "hydra"
+      ];
       auto-optimise-store = true;
-      allowed-uris = [ "https://github.com" "https://gitlab.com" "github:" ];
+      allowed-uris = [
+        "https://github.com"
+        "https://gitlab.com"
+        "github:"
+      ];
       max-jobs = 1;
     };
     gc = {
@@ -33,17 +45,18 @@
 
   services.nginx = {
     enable = true;
-    package =
-      pkgs.nginxStable.override { modules = [ pkgs.nginxModules.zstd ]; };
+    package = pkgs.nginxStable.override { modules = [ pkgs.nginxModules.zstd ]; };
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     virtualHosts."serve.eminrepo.cc" = {
-      listen = [{
-        addr = "0.0.0.0";
-        port = 443;
-        # ssl is very important
-        ssl = true;
-      }];
+      listen = [
+        {
+          addr = "0.0.0.0";
+          port = 443;
+          # ssl is very important
+          ssl = true;
+        }
+      ];
       locations."/".proxyPass = "http://127.0.0.1:5000";
       extraConfig = ''
         proxy_set_header Host $host;
@@ -60,15 +73,16 @@
       acmeRoot = "/var/lib/acme/machine-cache";
     };
     virtualHosts."hydra.eminrepo.cc" = {
-      listen = [{
-        addr = "0.0.0.0";
-        port = 443;
-        # ssl is very important
-        ssl = true;
-      }];
-      locations."/".proxyPass = "http://${config.services.hydra.listenHost}:${
-          toString config.services.hydra.port
-        }";
+      listen = [
+        {
+          addr = "0.0.0.0";
+          port = 443;
+          # ssl is very important
+          ssl = true;
+        }
+      ];
+      locations."/".proxyPass =
+        "http://${config.services.hydra.listenHost}:${toString config.services.hydra.port}";
       extraConfig = ''
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;

@@ -1,16 +1,19 @@
-{ pkgs, meta, ... }: {
+{ pkgs, meta, ... }:
+{
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${meta.hostname} = {
     isNormalUser = true;
     description = "Emin's NixOS";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
-    hashedPassword =
-      "$y$j9T$/Q3RRMjw264NerMQa4C3Z/$nZmWm63fXW2V6dUeQvQ0zafoRiJlHNnZeFS7RytH6T7";
-    packages = with pkgs;
-      [
-        #  thunderbird
-        # firefox
-      ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+    ];
+    hashedPassword = "$y$j9T$hyD1D5V8UXfXkgYIroC0.0$r2K7seZl23bqIRFAKhAwtpQ9qBIx6n.kb/qoyufRrH4";
+    packages = with pkgs; [
+      #  thunderbird
+      # firefox
+    ];
   };
 
   # Enable automatic login for the user.

@@ -1,4 +1,5 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   # This file is just an example, please replace the content with your nixos configuration
   # This file was populated at runtime with the networking
   # details gathered from the active system.
@@ -13,10 +14,12 @@
     usePredictableInterfaceNames = lib.mkForce false;
     interfaces = {
       eth0 = {
-        ipv4.addresses = [{
-          address = "2.131.87.17";
-          prefixLength = 32;
-        }];
+        ipv4.addresses = [
+          {
+            address = "2.131.87.17";
+            prefixLength = 32;
+          }
+        ];
         ipv6.addresses = [
           {
             address = "2e91:4ef:e0:a524::1";
@@ -27,14 +30,18 @@
             prefixLength = 64;
           }
         ];
-        ipv4.routes = [{
-          address = "172.22.1.1";
-          prefixLength = 32;
-        }];
-        ipv6.routes = [{
-          address = "172.22.1.1";
-          prefixLength = 128;
-        }];
+        ipv4.routes = [
+          {
+            address = "172.22.1.1";
+            prefixLength = 32;
+          }
+        ];
+        ipv6.routes = [
+          {
+            address = "172.22.1.1";
+            prefixLength = 128;
+          }
+        ];
       };
 
     };

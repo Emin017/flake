@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # fonts
   fonts.packages = with pkgs; [
     nerd-fonts.monaspace

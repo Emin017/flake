@@ -5,7 +5,8 @@ let
   sources = ./_sources/generated.nix;
   deps = lib.filterAttrs (_: v: v ? src) (pkgs.callPackage sources { });
   makeRemote = module: "https://github.com/${module.owner}/${module.repo}";
-in {
+in
+{
   modules = deps;
   makeRemote = makeRemote;
   pullRemote = pkgs.writeText "pullRemote.sh" ''

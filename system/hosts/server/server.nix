@@ -1,4 +1,11 @@
-{ lib, config, pkgs, specialArgs, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  specialArgs,
+  ...
+}:
+{
   # Change your usrnanme and user directory here
   home.username = lib.mkForce specialArgs.meta.hostname;
   home.homeDirectory = lib.mkForce "/home/${specialArgs.meta.hostname}";
@@ -54,7 +61,10 @@
     clang-tools
     cmake
   ];
-  imports = [ ./../../../modules/programs/zsh.nix ./../../../modules/neovim ];
+  imports = [
+    ./../../../modules/programs/zsh.nix
+    ./../../../modules/neovim
+  ];
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards

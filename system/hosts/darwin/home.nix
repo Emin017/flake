@@ -1,9 +1,16 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   home.stateVersion = "24.05";
   home.username = lib.mkForce "qimingchu";
   home.homeDirectory = lib.mkForce "/Users/qimingchu";
 
-  home.packages = with pkgs;
+  home.packages =
+    with pkgs;
     [
       curl
       wget
@@ -29,15 +36,16 @@
       btop # replacement of htop/nmon
       iftop # network monitoring
       yazi
-    ] ++ lib.optionals stdenv.isDarwin [
+    ]
+    ++ lib.optionals stdenv.isDarwin [
       cocoapods
       m-cli # useful macOS CLI commands
     ];
 
   imports = [
-    ../../modules/programs/direnv.nix
-    ../../modules/programs/yazi.nix
-    ../../modules/neovim
+    ../../../modules/programs/direnv.nix
+    ../../../modules/programs/yazi.nix
+    ../../../modules/neovim
   ];
 
   # This value determines the Home Manager release that your

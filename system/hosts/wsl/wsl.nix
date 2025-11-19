@@ -3,31 +3,46 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
-{ config, pkgs, meta, ... }: {
+{
+  config,
+  pkgs,
+  meta,
+  ...
+}:
+{
   imports = [
     # include NixOS-WSL modules
     #   <nixos-wsl/modules>
-    ./../minimal.nix
+    ./../../modules/minimal.nix
   ];
 
   wsl.enable = true;
   wsl.defaultUser = meta.hostname;
 
-  environment.systemPackages = [ pkgs.git pkgs.neovim pkgs.minio-client ];
+  environment.systemPackages = [
+    pkgs.git
+    pkgs.neovim
+    pkgs.minio-client
+  ];
   nix.settings = {
-    trusted-users = [ "root" "nixos" ];
+    trusted-users = [
+      "root"
+      "nixos"
+    ];
     auto-optimise-store = true;
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     extra-trusted-substituters = [
       "https://cache.eminrepo.cc/nix-cache/"
       "https://serve.eminrepo.cc/nix-cache/"
     ];
-    extra-trusted-public-keys =
-      [ "cache.eminrepo.cc:9yXK4QO7rnxqCKxKH4JGGqWhiJr6dOLCiXklPb7FmKc=" ];
+    extra-trusted-public-keys = [ "cache.eminrepo.cc:9yXK4QO7rnxqCKxKH4JGGqWhiJr6dOLCiXklPb7FmKc=" ];
   };
   programs.nix-ld = {
     enable = true;
-    package = pkgs.nix-ld-rs;
+    package = pkgs.nix-ld;
   };
 
   # Set the default editor to vim

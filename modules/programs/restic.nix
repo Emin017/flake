@@ -1,4 +1,5 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+{
   home.packages = [ pkgs.restic ];
 
   home.file.".config/restic/restic-env".text = ''

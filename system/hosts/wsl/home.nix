@@ -1,4 +1,11 @@
-{ lib, pkgs, meta, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  meta,
+  ...
+}:
+{
   # Change your usrnanme and user directory here
   home.username = lib.mkForce meta.hostname;
   home.homeDirectory = lib.mkForce "/home/${meta.hostname}";
@@ -17,8 +24,6 @@
     zip
     xz
     unzip
-
-    v2raya
 
     ripgrep # recursively searches directories for a regex pattern
     jq # A lightweight and flexible command-line JSON processor
@@ -55,22 +60,16 @@
     ltrace # library call monitoring
     lsof # list open files
 
-    gnomeExtensions.caffeine # Keep monitor awake
-
-    # for development
-    vscode
-    binutils
-    gcc
-    llvm_17
+    wget
+    tree-sitter
+    yazi
+    nodejs
+    clang-tools
     cmake
   ];
-
   imports = [
-    ../../../modules/programs/zsh.nix
-    ../../../modules/programs/direnv.nix
-    ../../../modules/programs/dconf.nix
-    ../../../modules/programs/i18n.nix
-    ../../../modules/neovim
+    ./../../../modules/programs/minimal.nix
+    ./../../../modules/neovim
   ];
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
@@ -84,4 +83,5 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
 }
