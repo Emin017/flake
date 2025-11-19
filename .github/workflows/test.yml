@@ -11,7 +11,7 @@ on:
     branches:
       - master
 jobs:
-  checks:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +19,8 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes pipe-operators
-      - name: Run nix flake checks
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Run nix flake check
         run: |
           nix flake check --all-systems
   build-wsl:
