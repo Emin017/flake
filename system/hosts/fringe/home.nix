@@ -8,8 +8,8 @@
 }:
 {
   # Change your usrnanme and user directory here
-  home.username = lib.mkForce meta.hostname;
-  home.homeDirectory = lib.mkForce "/home/${meta.hostname}";
+  home.username = lib.mkForce meta.username;
+  home.homeDirectory = lib.mkForce "/home/${meta.username}";
 
   # Set cursor size
   xresources.properties = {

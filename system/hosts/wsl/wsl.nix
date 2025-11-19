@@ -17,7 +17,7 @@
   ];
 
   wsl.enable = true;
-  wsl.defaultUser = meta.hostname;
+  wsl.defaultUser = meta.username;
 
   environment.systemPackages = [
     pkgs.git

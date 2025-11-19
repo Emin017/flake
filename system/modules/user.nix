@@ -1,7 +1,7 @@
 { pkgs, meta, ... }:
 {
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${meta.hostname} = {
+  users.users.${meta.username} = {
     isNormalUser = true;
     description = "Emin's NixOS";
     extraGroups = [

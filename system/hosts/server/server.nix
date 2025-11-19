@@ -7,8 +7,8 @@
 }:
 {
   # Change your usrnanme and user directory here
-  home.username = lib.mkForce specialArgs.meta.hostname;
-  home.homeDirectory = lib.mkForce "/home/${specialArgs.meta.hostname}";
+  home.username = lib.mkForce specialArgs.meta.username;
+  home.homeDirectory = lib.mkForce "/home/${specialArgs.meta.username}";
 
   # Use home.packages to install packages
   home.packages = with pkgs; [

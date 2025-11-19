@@ -57,7 +57,8 @@ in
       system = "x86_64-linux";
       specialArgs = {
         meta = {
-          hostname = user;
+          username = user;
+          hostname = "fringe";
         };
         inherit zenBrowser;
       };
@@ -71,7 +72,8 @@ in
             useUserPackages = true;
             extraSpecialArgs = {
               meta = {
-                hostname = user;
+                username = user;
+                hostname = "fringe";
               };
               inherit zenBrowser;
             };
@@ -84,7 +86,8 @@ in
     wsl = nixpkgs.lib.nixosSystem {
       specialArgs = {
         meta = {
-          hostname = user;
+          username = user;
+          hostname = "wsl";
         };
       };
       modules = [
@@ -97,7 +100,8 @@ in
             useUserPackages = true;
             extraSpecialArgs = {
               meta = {
-                hostname = user;
+                username = user;
+                hostname = "wsl";
               };
             };
             users.${user} = import ../system/hosts/wsl/home.nix;
@@ -145,7 +149,8 @@ in
       modules = [ ../system/hosts/server/server.nix ];
       extraSpecialArgs = {
         meta = {
-          hostname = user;
+          username = user;
+          hostname = "server";
         };
       };
     };
