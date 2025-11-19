@@ -16,6 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes pipe-operators
       - name: Build and switch on Linux
         run: |
           nix run nixpkgs#nixos-rebuild -- build --accept-flake-config --flake '.#fringe'
@@ -24,12 +27,13 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: cachix/install-nix-action@v30
       - name: Install Nix
         uses: cachix/install-nix-action@v30
         with:
           install_url: https://releases.nixos.org/nix/nix-${{ env.NIX_VERSION }}/install
           nix_path: nixpkgs=channel:${{ env.NIXPKGS_BRANCH }}
+          extra_nix_config: |
+            experimental-features = nix-command flakes pipe-operators
       - name: Install channels
         run: |
           sudo nix-channel --add https://nixos.org/channels/${{ env.NIXPKGS_BRANCH }} nixpkgs
@@ -69,6 +73,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes pipe-operators
       - name: Build home-manager configuration
         run: |
           nix build .#homeConfigurations.server.activationPackage
