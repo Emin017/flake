@@ -24,7 +24,7 @@ in
         backupFileExtension = "backup";
       };
       hydra = genNixSystem user "hydra" "x86_64-linux" [
-        ../system/hosts/hydra/hardware-configuration.nix
+        ./hosts/hydra/hardware-configuration.nix
       ] null;
     };
     # Home Manager configurations
@@ -37,13 +37,13 @@ in
       macbook = darwinSystem {
         system = "aarch64-darwin";
         modules = [
-          ../system/hosts/darwin/darwin.nix
+          ./hosts/darwin/darwin.nix
           home-manager.darwinModules.home-manager
           {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.${user} = import ../system/hosts/darwin/home.nix;
+              users.${user} = import ./hosts/darwin/home.nix;
             };
           }
         ];
