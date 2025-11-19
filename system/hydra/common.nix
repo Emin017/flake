@@ -37,7 +37,6 @@
       pkgs.nginxStable.override { modules = [ pkgs.nginxModules.zstd ]; };
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-    recommendedZstdSettings = true;
     virtualHosts."serve.eminrepo.cc" = {
       listen = [{
         addr = "0.0.0.0";
