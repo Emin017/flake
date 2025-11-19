@@ -18,6 +18,7 @@ jobs:
       - uses: cachix/install-nix-action@v30
       - name: Build and switch on Linux
         run: |
+          nix run nixpkgs#nixos-rebuild -- build --accept-flake-config --flake '.#fringe'
           nix run nixpkgs#nixos-rebuild -- build --accept-flake-config --flake '.#wsl'
   build-macos:
     runs-on: macos-latest
