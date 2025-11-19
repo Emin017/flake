@@ -67,7 +67,6 @@
 
   imports = [
     ../../../modules/programs/zsh.nix
-    ../../../modules/programs/git.nix
     ../../../modules/programs/direnv.nix
     ../../../modules/programs/dconf.nix
     ../../../modules/programs/i18n.nix
