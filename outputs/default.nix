@@ -23,10 +23,9 @@ parts.lib.mkFlake { inherit inputs; } {
     treefmt-nix.flakeModule
   ];
   flake = {
-    # Use command `nix flake .#nixosConfigurations.nixos` to build the nixos configuration
-    # Use command `nix flake .#darwinConfigurations.wsl` to build the macbook configuration
     nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
+      # Use command `nix flake .#nixosConfigurations.fringe` to build the nixos configuration
+      fringe = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {
           meta = {
@@ -56,6 +55,7 @@ parts.lib.mkFlake { inherit inputs; } {
           }
         ];
       };
+      # Use command `nix flake .#darwinConfigurations.wsl` to build the macbook configuration
       wsl = nixpkgs.lib.nixosSystem {
         specialArgs = {
           meta = {
