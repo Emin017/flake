@@ -1,7 +1,7 @@
 { self, nixpkgs, home-manager, nixos-wsl, nix-darwin, deploy-rs, treefmt-nix
-, ... }:
+, disko, zenBrowser, ... }:
 let
-  user = "nixos";
+  user = "Emin";
   # Systems
   linuxSystems = [ "x86_64-linux" "aarch64-linux" ];
   darwinSystems = [ "aarch64-darwin" ];
@@ -11,10 +11,6 @@ let
   eachSystem = f:
     nixpkgs.lib.genAttrs allSystems
     (system: f nixpkgs.legacyPackages.${system});
-  # Arguments for the nixos configurations
-  args = import ./args.nix {
-    inherit self nixpkgs home-manager user nixos-wsl nix-darwin deploy-rs;
-  };
   # Arguments for the devShell
   devShell = system:
     let pkgs = nixpkgs.legacyPackages.${system};
@@ -38,15 +34,74 @@ in {
   # Use command `nix flake .#nixosConfigurations.nixos` to build the nixos configuration
   # Use command `nix flake .#darwinConfigurations.wsl` to build the macbook configuration
   nixosConfigurations = {
-    nixos = import ./x86_64-linux/nixos.nix args.nixosArgs;
-    wsl =
-      import ./x86_64-linux/wsl.nix (args.nixosArgs // { inherit nixos-wsl; });
-    hydra = import ./hydra args.hydraArgs;
+    nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = {
+        meta = { hostname = user; };
+        inherit zenBrowser;
+      };
+      modules = [
+        ../system/linux/nixos/config.nix
+        home-manager.nixosModules.home-manager
+        disko.nixosModules.disko
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = {
+              meta = { hostname = user; };
+              inherit zenBrowser;
+            };
+            users.${user} = ../system/linux/nixos/home.nix;
+          };
+          nix.settings.trusted-users = [ user ];
+        }
+      ];
+    };
+    wsl = nixpkgs.lib.nixosSystem {
+      specialArgs = { meta = { hostname = user; }; };
+      modules = [
+        ../system/linux/wsl/wsl.nix
+        nixos-wsl.nixosModules.wsl
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = { meta = { hostname = user; }; };
+            users.${user} = import ../system/linux/wsl/home.nix;
+            backupFileExtension = "backup";
+          };
+          nix.settings.trusted-users = [ "nixos" ];
+        }
+      ];
+    };
+    hydra = nixpkgs.lib.nixosSystem {
+      specialArgs = { meta = { hostname = "hcloud"; }; };
+      system = "x86_64-linux";
+      modules = [
+        ../system/hydra/hardware-configuration.nix
+        ../system/hydra/common.nix
+      ];
+    };
   };
   # Import the darwin configurations
   # Use command `nix flake .#darwinConfigurations.macbook` to build the macbook configuration
   darwinConfigurations = {
-    macbook = import ./aarch64-darwin/common.nix args.darwinArgs;
+    macbook = nix-darwin.lib.darwinSystem {
+      system = "aarch64-darwin";
+      modules = [
+        ../system/darwin/darwin.nix
+        home-manager.darwinModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users.${user} = import ../system/darwin/home.nix;
+          };
+        }
+      ];
+    };
   };
   # Home Manager configurations
   homeConfigurations = {
@@ -59,21 +114,41 @@ in {
 
   # Import the deploy configurations
   # Use command `nix run github:serokell/deploy-rs -- -d -s .#hydra` to deploy the configuration to the server
-  deploy = import ./deploy (args.commonArgs // { inherit deploy-rs; });
+  deploy = {
+    sshUser = "root";
+    user = "root";
+    sshOpts = [ "-p" "22" ];
+    autoRollback = false;
+    magicRollback = false;
+    nodes = {
+      hydra = {
+        hostname = "hcloud";
+        profiles = {
+          hetzner = {
+            user = "root";
+            confirmTimeout = 300;
+            path = deploy-rs.lib.x86_64-linux.activate.nixos
+              self.nixosConfigurations.hydra;
+          };
+        };
+      };
+    };
+  };
   # Import the darwin packages
   darwinPackages = self.darwinConfigurations.macbook.pkgs;
   # Import the hydra jobs
-  hydraJobs = import ./hydra/jobs.nix args.commonArgs;
+  hydraJobs = {
+    nixos = self.nixosConfigurations.nixos.config.system.build.toplevel;
+    wsl = self.nixosConfigurations.wsl.config.system.build.toplevel;
+    hydra = self.nixosConfigurations.hydra.config.system.build.toplevel;
+  };
   # Use nixfmt-classic as the formatter for all systems
   formatter =
     eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
   # Use the deploy-rs library to check the deployments
-  checks = {
-    deploy-rs =
-      builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy)
-      deploy-rs.lib;
-    format = eachSystem (pkgs: {
-      formatting = treefmtEval.${pkgs.system}.config.build.check self;
-    });
-  };
+  checks = nixpkgs.lib.recursiveUpdate
+    (builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy)
+      deploy-rs.lib) (eachSystem (pkgs: {
+        formatting = treefmtEval.${pkgs.system}.config.build.check self;
+      }));
 }
