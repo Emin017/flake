@@ -7,7 +7,7 @@
     packages = with pkgs;
       [
         #  thunderbird
-        firefox
+        # firefox
       ];
   };
 
