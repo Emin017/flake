@@ -116,7 +116,7 @@
         with builtins;
         ../../../modules/programs |> readDir |> attrNames |> map (f: ../../../modules/programs + "/${f}");
     in
-    modules ++ [ inputs.zenBrowser.homeModules.beta ];
+    modules ++ [ inputs.zen-browser.homeModules.beta ];
   programs.zen-browser.enable = true;
   programs.zen-browser.policies = {
     DisableAppUpdate = true;

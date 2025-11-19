@@ -96,7 +96,7 @@
     "home-manager_2": {
       "inputs": {
         "nixpkgs": [
-          "zenBrowser",
+          "zen-browser",
           "nixpkgs"
         ]
       },
@@ -217,7 +217,7 @@
         "nixpkgs": "nixpkgs_2",
         "parts": "parts",
         "treefmt-nix": "treefmt-nix",
-        "zenBrowser": "zenBrowser"
+        "zen-browser": "zen-browser"
       }
     },
     "systems": {
@@ -273,7 +273,7 @@
         "type": "github"
       }
     },
-    "zenBrowser": {
+    "zen-browser": {
       "inputs": {
         "home-manager": "home-manager_2",
         "nixpkgs": [
@@ -281,11 +281,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1763214567,
-        "narHash": "sha256-BDRSWvXGoKq1oHSjl+HLAq7I8ZL90ZhW3fDB3cl7LJk=",
+        "lastModified": 1763521945,
+        "narHash": "sha256-Zcrafbe4niRJMbzaVOwg7+iedJhwBFttre2DpyCC6qA=",
         "owner": "0xc000022070",
         "repo": "zen-browser-flake",
-        "rev": "0bfb3939813d5da9e198de6d4cc1e2afc38a7021",
+        "rev": "24d7381b9231c23daceec5d372cc28e877f7785d",
         "type": "github"
       },
       "original": {
