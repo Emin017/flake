@@ -44,7 +44,6 @@ jobs:
           nix_path: nixpkgs=channel:${{ env.NIXPKGS_BRANCH }}
           extra_nix_config: |
             experimental-features = nix-command flakes pipe-operators
-      - uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Install channels
         run: |
           sudo nix-channel --add https://nixos.org/channels/${{ env.NIXPKGS_BRANCH }} nixpkgs
@@ -87,7 +86,6 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes pipe-operators
-      - uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Build home-manager configuration
         run: |
           nix build .#homeConfigurations.server.activationPackage
