@@ -95,13 +95,14 @@
 
   imports =
     let
+      modulePrefix = ../../../modules/programs;
       modules =
         with builtins;
-        ../../../modules/programs
+        modulePrefix
         |> readDir
         |> attrNames
         |> lib.filter (f: f != "yazi.nix" && f != "restic.nix")
-        |> map (f: ../../../modules/programs + "/${f}");
+        |> map (f: modulePrefix + "/${f}");
     in
     modules
     ++ [
