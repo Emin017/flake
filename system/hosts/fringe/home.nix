@@ -35,6 +35,8 @@
     fzf # A command-line fuzzy finder
     icdiff
 
+    lazygit # A simple terminal UI for git
+
     # networking tools
     mtr # A network diagnostic tool
     iperf3
@@ -93,11 +95,20 @@
 
   imports =
     let
+      modulePrefix = ../../../modules/programs;
       modules =
         with builtins;
-        ../../../modules/programs |> readDir |> attrNames |> map (f: ../../../modules/programs + "/${f}");
+        modulePrefix
+        |> readDir
+        |> attrNames
+        |> lib.filter (f: f != "yazi.nix" && f != "restic.nix")
+        |> map (f: modulePrefix + "/${f}");
     in
-    modules ++ [ inputs.zen-browser.homeModules.beta ];
+    modules
+    ++ [
+      ../../../modules/neovim
+      inputs.zen-browser.homeModules.beta
+    ];
   programs.zen-browser.enable = true;
   programs.zen-browser.policies = {
     DisableAppUpdate = true;

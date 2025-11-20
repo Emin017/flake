@@ -13,6 +13,7 @@
     packages = with pkgs; [
       #  thunderbird
       # firefox
+      neovim
     ];
   };
 

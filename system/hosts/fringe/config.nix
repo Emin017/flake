@@ -10,15 +10,16 @@
 {
   imports =
     let
+      modulePrefix = ./../../modules;
       modules =
         with builtins;
         with lib;
-        ./../../modules
+        modulePrefix
         |> readDir
         |> filterAttrs (name: type: type == "regular")
         |> attrNames
         |> filter (f: f != "minimal.nix") # This file will import zsh.nix and i18n.nix, which are duplicated
-        |> map (f: ./../../modules + "/${f}");
+        |> map (f: modulePrefix + "/${f}");
     in
     modules
     ++ [
