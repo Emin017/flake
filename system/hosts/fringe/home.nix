@@ -91,6 +91,8 @@
     discord
     wemeet
     feishu
+
+    wpsoffice-cn
   ];
 
   imports =
