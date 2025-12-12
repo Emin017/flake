@@ -9,7 +9,7 @@
       "wheel"
       "docker"
     ];
-    hashedPassword = "$y$j9T$iVIguLU7hksJZNpMn0xR21$s2LMBy3TdvYTSDqShSQbAKFWeQ7hw6Ep8akFdlcg2S1";
+    hashedPassword = "$y$j9T$9s9RRRZIu5a3/VV35QOQ31$WHtff4z3zBCIt5iH4XGT0SZ2Lbmrb9o7FSuqu9WKTxA";
     packages = with pkgs; [
       #  thunderbird
       # firefox
