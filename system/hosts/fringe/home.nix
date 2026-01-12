@@ -85,7 +85,7 @@
     llvm_20
     nodejs
 
-    jetbrains.idea-ultimate
+    jetbrains.idea
     claude-code
 
     # Social
