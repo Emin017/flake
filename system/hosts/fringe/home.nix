@@ -21,6 +21,7 @@
     git
     neofetch
     wget
+    tree
 
     zip
     xz
@@ -85,6 +86,7 @@
     nodejs
 
     jetbrains.idea-ultimate
+    claude-code
 
     # Social
     wechat
