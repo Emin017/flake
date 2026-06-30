@@ -27,8 +27,6 @@
     xz
     unzip
 
-    v2raya
-
     ripgrep # recursively searches directories for a regex pattern
     jq # A lightweight and flexible command-line JSON processor
     yq-go # yaml processor https://github.com/mikefarah/yq

@@ -10,8 +10,11 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # V2rayA proxy
-  services.v2raya.enable = true;
+  # Clash-verge proxy
+  programs.clash-verge.enable = true;
+  programs.clash-verge.autoStart = true;
+  programs.clash-verge.tunMode = true;
+  programs.clash-verge.serviceMode = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
