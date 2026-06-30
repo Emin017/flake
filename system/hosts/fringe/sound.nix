@@ -10,9 +10,10 @@ let
   ALSA_CONFIG_UCM2 = "/run/current-system/sw/share/alsa/ucm2";
 
   lnl-alsa-ucm-conf = pkgs.alsa-ucm-conf.overrideAttrs (oldAttrs: {
-    src = fetchTarball {
-      url = "https://github.com/alsa-project/alsa-ucm-conf/archive/421e37b.tar.gz";
-      sha256 = "sha256:08rsv6wn32d9zrw1gl2jp7rqzj8m6bdkn0xc7drzf9gfbf6fvmpb";
+    src = pkgs.fetchgit {
+      url = "https://github.com/alsa-project/alsa-ucm-conf.git";
+      rev = "858d3a2443c66a7d5a2b5598308619237e8fc75d";
+      sha256 = "sha256-Vds79ITUSZOqg4yf/dnYu2muxrvJuYBpvrtde/7+m9Y=";
     };
     installPhase = ''
       mkdir -p $out/share/alsa
