@@ -5,8 +5,15 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
 }:
+let
+  clashVergeRevPkgs = import inputs.nixpkgs-clash-verge-rev {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
+in
 {
   imports =
     let
@@ -62,16 +69,17 @@
   # services.xserver.libinput.enable = true;
 
   virtualisation.docker.enable = true;
+
   services.openssh.enable = true;
   services.tailscale.enable = true;
 
-  networking.firewall.extraCommands =
-    let
-      dockerSubnet = "172.17.0.0/16";
-    in
-    ''
-      iptables -t nat -I TP_RULE 1 -s ${dockerSubnet} -j RETURN || true
-    '';
+  programs.clash-verge = {
+    enable = true;
+    autoStart = true;
+    tunMode = true;
+    serviceMode = true;
+    package = clashVergeRevPkgs.clash-verge-rev;
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
