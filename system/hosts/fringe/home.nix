@@ -19,7 +19,7 @@
   # Use home.packages to install packages
   home.packages = with pkgs; [
     git
-    neofetch
+    fastfetch
     wget
     tree
 
@@ -75,6 +75,8 @@
 
     # for development
     vscode
+    zed-editor
+
     ghostty
     nixd
     binutils
@@ -82,9 +84,10 @@
     cmake
     llvm_20
     nodejs
+    pnpm
+    bubblewrap
 
     jetbrains.idea
-    claude-code
 
     # Social
     wechat
