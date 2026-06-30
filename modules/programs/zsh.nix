@@ -19,7 +19,8 @@
     enableCompletion = true;
     autosuggestion.enable = true;
     initExtra = ''
-      export PATH="$PATH:$HOME/bin:$HOME/.local/bin"
+      export PNPM_HOME="$HOME/.local/share/pnpm"
+      export PATH="$PNPM_HOME/bin:$PATH:$HOME/bin:$HOME/.local/bin"
       zvm_after_init_commands+=(eval "$(fzf --zsh)")
     '';
     # Set aliases
