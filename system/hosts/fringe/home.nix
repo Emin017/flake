@@ -69,6 +69,7 @@ in
     lsof # list open files
 
     gnomeExtensions.caffeine # Keep monitor awake
+    gnomeExtensions.appindicator # Tray icons (StatusNotifier/AppIndicator) support
     gnomeExtensions.clipboard-indicator
     gnomeExtensions.kimpanel
     gnomeExtensions.vitals
