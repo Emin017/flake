@@ -7,6 +7,7 @@
       "org/gnome/shell" = {
         disable-user-extensions = false;
         enabled-extensions = [
+          pkgs.gnomeExtensions.appindicator.extensionUuid
           pkgs.gnomeExtensions.gsconnect.extensionUuid
           pkgs.gnomeExtensions.caffeine.extensionUuid
           pkgs.gnomeExtensions.clipboard-indicator.extensionUuid
