@@ -5,6 +5,9 @@
   inputs,
   ...
 }:
+let
+  magpie = pkgs.callPackage ../../../modules/deps/magpie.nix { };
+in
 {
   # Change your usrnanme and user directory here
   home.username = lib.mkForce meta.username;
@@ -96,6 +99,8 @@
     feishu
 
     wpsoffice-cn
+
+    magpie
   ];
 
   imports =
@@ -118,6 +123,22 @@
   programs.zen-browser.policies = {
     DisableAppUpdate = true;
     DisableTelemetry = true;
+  };
+
+  # magpie 托盘应用：跟随图形会话自启动
+  systemd.user.services.magpie = {
+    Unit = {
+      Description = "magpie - local AI model gateway (tray app)";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = "${magpie}/bin/magpie tray";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
   };
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
