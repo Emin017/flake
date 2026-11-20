@@ -3,7 +3,7 @@
   ...
 }:
 let
-  inherit (inputs) home-manager nixpkgs;
+  inherit (inputs) agenix home-manager nixpkgs;
 in
 {
   flake.libGen = {
@@ -31,6 +31,7 @@ in
           modules =
             modules
             ++ [
+              agenix.nixosModules.default
               ../system/hosts/${hostname}/config.nix
               { networking.hostName = hostname; }
             ]

@@ -14,7 +14,11 @@
     # include NixOS-WSL modules
     #   <nixos-wsl/modules>
     ./../../modules/minimal.nix
+    ./user.nix
   ];
+
+  # Provision this host key before activation; WSL does not enable OpenSSH by default.
+  age.identityPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
   wsl.enable = true;
   wsl.defaultUser = meta.username;

@@ -1,22 +1,5 @@
-{ pkgs, meta, ... }:
+{ ... }:
 {
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${meta.username} = {
-    isNormalUser = true;
-    description = "Emin's NixOS";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "docker"
-      "uinput"
-    ];
-    hashedPassword = "$y$j9T$9s9RRRZIu5a3/VV35QOQ31$WHtff4z3zBCIt5iH4XGT0SZ2Lbmrb9o7FSuqu9WKTxA";
-    packages = with pkgs; [
-      #  thunderbird
-      # firefox
-      neovim
-    ];
-  };
   users.groups.uinput = { };
   services.udev.extraRules = ''
     KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"

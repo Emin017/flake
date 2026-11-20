@@ -27,6 +27,7 @@
       # Include the results of the hardware scan.
       ./hardware.nix
       ./sound.nix
+      ./user.nix
     ];
 
   # workaround for https://github.com/NixOS/nixpkgs/issues/6481
