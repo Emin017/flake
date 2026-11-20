@@ -22,7 +22,7 @@
   environment.systemPackages = [
     pkgs.git
     pkgs.neovim
-    pkgs.minio-client
+    # pkgs.minio-client # insecure
   ];
   nix.settings = {
     trusted-users = [
