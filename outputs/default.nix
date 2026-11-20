@@ -46,13 +46,20 @@ parts.lib.mkFlake { inherit inputs; } {
         default =
           with pkgs;
           mkShell {
-            nativeBuildInputs = with pkgs; [
-              git
-              vim
-              nixd
-            ];
+            nativeBuildInputs =
+              with pkgs;
+              [
+                git
+                vim
+                nixd
+                openssh
+                inputs'.agenix.packages.default
+              ]
+              ++ lib.optionals stdenv.hostPlatform.isLinux [ wl-clipboard ];
             shellHook = ''
               export EDITOR=vim
+              source ${../scripts/agenix.sh}
+              export -f _agenix_repo_root agenix-decrypt agenix-rekey agenix-password agenix-onboard agenix-help
             '';
           };
       };
