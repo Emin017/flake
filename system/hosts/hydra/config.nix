@@ -4,6 +4,7 @@
     ./hardware-configuration.nix
     ./networking.nix
     ./hydra.nix
+    ./user.nix
   ];
   boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
