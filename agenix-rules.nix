@@ -7,7 +7,8 @@ let
     "password-hash"
   ];
 
-  mkHostSecrets = host: publicKeys: secrets:
+  mkHostSecrets =
+    host: publicKeys: secrets:
     map (secret: {
       name = "system/hosts/${host}/secrets/${host}-user-${secret}.age";
       value = { inherit publicKeys; };
