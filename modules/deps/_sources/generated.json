@@ -1,6 +1,27 @@
 {
+    "blur-my-shell": {
+        "cargoLock": null,
+        "date": "2026-11-05",
+        "extract": null,
+        "name": "blur-my-shell",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "aunetx",
+            "repo": "blur-my-shell",
+            "rev": "075ca059bf81390aab6fab18e9c4f255571bdfb3",
+            "sha256": "sha256-XERrmD0/r87JvIx++8Ejr0+KbkVSTkFbuINHbLOwjHw=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "075ca059bf81390aab6fab18e9c4f255571bdfb3"
+    },
     "nvim": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": "2025-02-05",
         "extract": null,
         "name": "nvim",

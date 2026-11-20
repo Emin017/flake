@@ -8,6 +8,7 @@
       "networkmanager"
       "wheel"
       "docker"
+      "uinput"
     ];
     hashedPassword = "$y$j9T$9s9RRRZIu5a3/VV35QOQ31$WHtff4z3zBCIt5iH4XGT0SZ2Lbmrb9o7FSuqu9WKTxA";
     packages = with pkgs; [
@@ -16,10 +17,14 @@
       neovim
     ];
   };
+  users.groups.uinput = { };
+  services.udev.extraRules = ''
+    KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
+  '';
 
   # Enable automatic login for the user.
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "Emin";
+  # services.displayManager.autoLogin.enable = true;
+  # services.displayManager.autoLogin.user = "Emin";
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
