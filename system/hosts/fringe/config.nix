@@ -59,15 +59,15 @@
     openFirewall = true;
   };
 
-	# Fingerprint
-	services.fprintd = {
+  # Fingerprint
+  services.fprintd = {
     enable = true;
     tod = {
       enable = true;
-      driver = pkgs.libfprint-2-tod1-goodix;   # Goodix 通用 TOD 驱动
+      driver = pkgs.libfprint-2-tod1-goodix; # Goodix 通用 TOD 驱动
     };
   };
-	services.fwupd.enable = true;
+  services.fwupd.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
