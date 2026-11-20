@@ -13,7 +13,6 @@
     port = 3000;
     hydraURL = "https://hydra.eminrepo.cc";
     notificationSender = "hydra@eminrepo";
-    buildMachinesFiles = [ ];
     useSubstitutes = true;
   };
   networking.firewall = {
