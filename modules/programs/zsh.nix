@@ -18,7 +18,7 @@
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;
-    initExtra = ''
+    initContent = ''
       export PNPM_HOME="$HOME/.local/share/pnpm"
       export PATH="$PNPM_HOME/bin:$PATH:$HOME/bin:$HOME/.local/bin"
       zvm_after_init_commands+=(eval "$(fzf --zsh)")

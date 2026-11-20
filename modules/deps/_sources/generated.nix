@@ -6,6 +6,18 @@
   dockerTools,
 }:
 {
+  blur-my-shell = {
+    pname = "blur-my-shell";
+    version = "075ca059bf81390aab6fab18e9c4f255571bdfb3";
+    src = fetchFromGitHub {
+      owner = "aunetx";
+      repo = "blur-my-shell";
+      rev = "075ca059bf81390aab6fab18e9c4f255571bdfb3";
+      fetchSubmodules = false;
+      sha256 = "sha256-XERrmD0/r87JvIx++8Ejr0+KbkVSTkFbuINHbLOwjHw=";
+    };
+    date = "2026-11-05";
+  };
   nvim = {
     pname = "nvim";
     version = "4ffa708b5a85ece2091d4829f458f266f9529f48";

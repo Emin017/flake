@@ -8,12 +8,6 @@
   inputs,
   ...
 }:
-let
-  clashVergeRevPkgs = import inputs.nixpkgs-clash-verge-rev {
-    system = pkgs.stdenv.hostPlatform.system;
-    config.allowUnfree = true;
-  };
-in
 {
   imports =
     let
@@ -65,6 +59,16 @@ in
     openFirewall = true;
   };
 
+	# Fingerprint
+	services.fprintd = {
+    enable = true;
+    tod = {
+      enable = true;
+      driver = pkgs.libfprint-2-tod1-goodix;   # Goodix 通用 TOD 驱动
+    };
+  };
+	services.fwupd.enable = true;
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -78,7 +82,7 @@ in
     autoStart = true;
     tunMode = true;
     serviceMode = true;
-    package = clashVergeRevPkgs.clash-verge-rev;
+    package = pkgs.clash-verge-rev;
   };
 
   # Allow unfree packages

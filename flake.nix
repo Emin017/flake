@@ -45,6 +45,10 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     nixpkgs-clash-verge-rev.url = "github:NixOS/nixpkgs/09061f748ee21f68a089cd5d91ec1859cd93d0be";
+    nur-packages = {
+      url = "github:Emin017/nur-packages";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: import ./outputs inputs;

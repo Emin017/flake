@@ -6,7 +6,24 @@
   ...
 }:
 let
-  magpie = pkgs.callPackage ../../../modules/deps/magpie.nix { };
+  deps = import ../../../modules/deps { inherit pkgs lib; };
+  blur-my-shell = pkgs.callPackage ../../../modules/deps/blur-my-shell.nix {
+    source = deps.modules.blur-my-shell;
+  };
+  # gnomeExtensions already follows GNOME 51 (NixOS/nixpkgs#575552) while gnome-shell is still 50
+  # until NixOS/nixpkgs#559510 leaves staging; v94 only declares GNOME 51, v92 is the GNOME 49/50 release
+  kimpanel =
+    if lib.versionOlder pkgs.gnome-shell.version "51" then
+      pkgs.gnomeExtensions.kimpanel.overrideAttrs {
+        version = "92";
+        src = pkgs.fetchzip {
+          url = "https://extensions.gnome.org/extension-data/kimpanelkde.org.v92.shell-extension.zip";
+          hash = "sha256-ad9NaWmXN+nWXkkqOGVhwSiYWXiYk0KTFKVl412m4n0=";
+          stripRoot = false;
+        };
+      }
+    else
+      pkgs.gnomeExtensions.kimpanel;
 in
 {
   # Change your usrnanme and user directory here
@@ -25,6 +42,10 @@ in
     fastfetch
     wget
     tree
+    fd
+
+    tigervnc
+    wl-clipboard
 
     zip
     xz
@@ -71,11 +92,11 @@ in
     gnomeExtensions.caffeine # Keep monitor awake
     gnomeExtensions.appindicator # Tray icons (StatusNotifier/AppIndicator) support
     gnomeExtensions.clipboard-indicator
-    gnomeExtensions.kimpanel
+    kimpanel # pinned to the GNOME 50 release, see above
     gnomeExtensions.vitals
     gnomeExtensions.dash-to-dock
     gnomeExtensions.rounded-window-corners-reborn
-    gnomeExtensions.blur-my-shell
+    blur-my-shell # upstream master, see modules/deps/blur-my-shell.nix
 
     # for development
     vscode
@@ -91,7 +112,7 @@ in
     pnpm
     bubblewrap
 
-    jetbrains.idea
+    # jetbrains.idea
 
     # Social
     wechat
@@ -100,8 +121,8 @@ in
     feishu
 
     wpsoffice-cn
-
-    magpie
+    mailspring
+    obsidian
   ];
 
   imports =
@@ -119,6 +140,7 @@ in
     ++ [
       ../../../modules/neovim
       inputs.zen-browser.homeModules.beta
+      inputs.nur-packages.modules.magpie
     ];
   programs.zen-browser.enable = true;
   programs.zen-browser.policies = {
@@ -126,20 +148,10 @@ in
     DisableTelemetry = true;
   };
 
-  # magpie 托盘应用：跟随图形会话自启动
-  systemd.user.services.magpie = {
-    Unit = {
-      Description = "magpie - local AI model gateway (tray app)";
-      After = [ "graphical-session.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = "${magpie}/bin/magpie tray";
-      Restart = "on-failure";
-      RestartSec = 5;
-    };
-    Install.WantedBy = [ "graphical-session.target" ];
+  # magpie 托盘应用：跟随图形会话自启动（模块来自 Emin017/nur-packages）
+  services.magpie = {
+    enable = true;
+    package = inputs.nur-packages.legacyPackages.${pkgs.system}.magpie;
   };
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
