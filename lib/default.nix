@@ -32,6 +32,7 @@ in
             modules
             ++ [
               ../system/hosts/${hostname}/config.nix
+              { networking.hostName = hostname; }
             ]
             ++ nixpkgs.lib.optionals (hmConfig != null) [
               home-manager.nixosModules.home-manager

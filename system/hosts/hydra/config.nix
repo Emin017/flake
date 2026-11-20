@@ -7,7 +7,6 @@
   ];
   boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
-  networking.hostName = "hcloud";
   networking.domain = "";
   services.openssh = {
     enable = true;
