@@ -12,7 +12,7 @@
 
   # Use home.packages to install packages
   home.packages = with pkgs; [
-    neofetch
+    fastfetch
     nnn
 
     zip
