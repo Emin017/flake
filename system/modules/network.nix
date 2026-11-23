@@ -1,4 +1,4 @@
-{ ... }:
+{ meta, pkgs, ... }:
 {
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -8,6 +8,15 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  # Proxy
+  programs.clash-verge = {
+    enable = true;
+    tunMode = true;
+    autoStart = true;
+    serviceMode = true;
+    package = pkgs.clash-verge-rev;
+  };
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
