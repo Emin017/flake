@@ -78,14 +78,6 @@
   services.openssh.enable = true;
   services.tailscale.enable = true;
 
-  programs.clash-verge = {
-    enable = true;
-    autoStart = true;
-    tunMode = true;
-    serviceMode = true;
-    package = pkgs.clash-verge-rev;
-  };
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 

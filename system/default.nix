@@ -18,7 +18,10 @@ in
   flake = {
     nixosConfigurations = {
       # Use command `nix flake .#nixosConfigurations.fringe` to build the nixos configuration
-      fringe = genNixSystem user "fringe" "x86_64-linux" [ disko.nixosModules.disko ] { };
+      fringe = genNixSystem user "fringe" "x86_64-linux" [ disko.nixosModules.disko ] {
+        backupFileExtension = "backup";
+      };
+      ryzen = genNixSystem user "ryzen" "x86_64-linux" [ ] { backupFileExtension = "backup"; };
       # Use command `nix flake .#darwinConfigurations.wsl` to build the macbook configuration
       wsl = genNixSystem user "wsl" "x86_64-linux" [ nixos-wsl.nixosModules.wsl ] {
         backupFileExtension = "backup";

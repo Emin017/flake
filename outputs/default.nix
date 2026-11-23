@@ -7,7 +7,7 @@
   ...
 }@inputs:
 let
-  user = "Emin";
+  user = "emin";
 in
 parts.lib.mkFlake { inherit inputs; } {
   _module.args.user = user;
@@ -28,6 +28,7 @@ parts.lib.mkFlake { inherit inputs; } {
       fringe = self.nixosConfigurations.fringe.config.system.build.toplevel;
       wsl = self.nixosConfigurations.wsl.config.system.build.toplevel;
       hydra = self.nixosConfigurations.hydra.config.system.build.toplevel;
+      ryzen = self.nixosConfigurations.ryzen.config.system.build.toplevel;
     };
     checks = nixpkgs.lib.recursiveUpdate (builtins.mapAttrs (
       system: deployLib: deployLib.deployChecks self.deploy

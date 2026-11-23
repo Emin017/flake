@@ -141,7 +141,14 @@ in
       ../../../modules/neovim
       inputs.zen-browser.homeModules.beta
       inputs.nur-packages.modules.magpie
+      inputs.nur-packages.homeManagerModules.clash-verge-tailscale
     ];
+
+  programs.clash-verge.tailscale = {
+    enable = true;
+    tailnet = "tail4121a.ts.net";
+  };
+
   programs.zen-browser.enable = true;
   programs.zen-browser.policies = {
     DisableAppUpdate = true;
