@@ -72,7 +72,7 @@ jobs:
             /" \
           /etc/nix-darwin/configuration.nix
 
-          sudo nix run nix-darwin/nix-darwin-24.11#darwin-rebuild -- switch -I darwin-config=/etc/nix-darwin/configuration.nix \
+          sudo nix run github:LnL7/nix-darwin/${{ env.NIX_DARWIN_BRANCH }}#darwin-rebuild -- switch -I darwin-config=/etc/nix-darwin/configuration.nix \
             -I darwin=$HOME/.nix-defexpr/channels/darwin
       - name: Build nix-darwin configuration
         run: |
