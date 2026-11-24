@@ -10,6 +10,8 @@
   users.users.${meta.username} = {
     isNormalUser = true;
     description = "${meta.username}'s NixOS";
+    # Keep user services running after the last login session exits.
+    linger = true;
     extraGroups = [
       "networkmanager"
       "wheel"
