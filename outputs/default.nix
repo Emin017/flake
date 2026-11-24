@@ -6,11 +6,7 @@
   parts,
   ...
 }@inputs:
-let
-  user = "emin";
-in
 parts.lib.mkFlake { inherit inputs; } {
-  _module.args.user = user;
   systems = [
     "x86_64-linux"
     "aarch64-darwin"
