@@ -49,7 +49,7 @@ in
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.${user} = import ./hosts/darwin/home.nix;
+              users.qimingchu = import ./hosts/darwin/home.nix;
             };
           }
         ];
